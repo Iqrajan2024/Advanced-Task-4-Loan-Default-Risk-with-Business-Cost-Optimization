@@ -29,47 +29,48 @@ The dataset used includes detailed information about loan applicants, including 
 ## My Approach
 
 1. **Data Preprocessing**
-   - **Missing Values**: Handled any missing or inconsistent entries.
+- **Missing Values**: Handled any missing or inconsistent entries.
 - **Categorical Encoding**:
-  - For **Logistic Regression**, applied one-hot encoding.
+   - For **Logistic Regression**, applied one-hot encoding.
   - For **CatBoost**, used raw categorical variables (CatBoost handles these internally).
 - **Feature Scaling**:
-  - Applied standardization to numerical features for Logistic Regression.
+   - Applied standardization to numerical features for Logistic Regression.
   - No scaling needed for CatBoost.
 
 2. **Model Training**
-   Trained and compared two models:
+   
+  Trained and compared two models:
 - **Logistic Regression**
-  - Applied after preprocessing (encoding + scaling).
+   - Applied after preprocessing (encoding + scaling).
   - Offers interpretability and serves as a baseline.
 - **CatBoostClassifier**
-  - Chosen for its performance on tabular data and native support for categorical features.
+   - Chosen for its performance on tabular data and native support for categorical features.
   - Tuned hyperparameters and trained on the same dataset.
 
-### 3. Business Cost Function 
+3. **Business Cost Function** 
 - Defined a cost function based on business logic:
   - **False Positive (FP)**: $1,000 (missed opportunity from rejecting a good applicant)
   - **False Negative (FN)**: $10,000 (loss from approving a defaulter)
 
-### 4. Threshold Optimization
+4. **Threshold Optimization**
 - Evaluated thresholds from 0 to 1 using the predicted probabilities.
-- Calculated total business cost for each threshold using:
+- Calculated total business cost for each threshold using:<br>
        total_cost = FP × cost_fp + FN × cost_fn
 - Selected the threshold that minimized the total cost.
 
 
 5. **Model Evaluation**
-   - Confusion matrix and classification metrics (precision, recall, F1-score) were analyzed at the optimized threshold.
-   - ROC AUC was used to confirm model discrimination performance.
-   - A cost vs. threshold plot was created to visually highlight the impact of threshold selection.
+- Confusion matrix and classification metrics (precision, recall, F1-score) were analyzed at the optimized threshold.
+- ROC AUC was used to confirm model discrimination performance.
+- A cost vs. threshold plot was created to visually highlight the impact of threshold selection.
 
 ## Key Insights
 - **Default Threshold (0.50):**
-- Cost: $2,369,000
+   - Cost: $2,369,000
 
 - **Optimized Threshold (0.21):**
-- Cost: $1,802,000
-- Cost Saved: $567,000
+   - Cost: $1,802,000
+   - Cost Saved: $567,000
 
 - Despite some increase in false positives, the large reduction in false negatives significantly reduced overall business loss.
 - Optimizing threshold based on cost delivers better real-world outcomes than relying on standard metrics alone.
